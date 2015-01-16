@@ -22,6 +22,8 @@ import org.bukkit.command.CommandSender;
 
 public class HexiAdmin extends JavaPlugin implements Listener {
 
+    private PluginConfiguration config = new PluginConfiguration(this);
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -30,7 +32,7 @@ public class HexiAdmin extends JavaPlugin implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] arguments) {
-        sender.sendMessage("Hello");
-        return false;
+        sender.sendMessage(config.getString("return"));
+        return true;
     }
 }
