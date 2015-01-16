@@ -11,8 +11,8 @@ package h4;
  */
 
 /**
- * TODO Write the plugin
- * TODO Add MySQL Class
+ * TODO: Write the plugin
+ * TODO: Add MySQL Class
  */
 
 public class HexiAdmin {
