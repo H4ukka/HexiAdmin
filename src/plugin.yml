@@ -1,0 +1,8 @@
+name: HexiAdmin
+main: h4.HexiAdmin
+version: 0.1r0
+commands:
+    test:
+        description: This is a test command.
+        usage: /test
+        permission-message: no perms for test :c
