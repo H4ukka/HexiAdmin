@@ -2,7 +2,7 @@ name: HexiAdmin
 main: h4.HexiAdmin
 version: 0.1r0
 commands:
-    test:
+    warn:
         description: This is a test command.
-        usage: /test
+        usage: /warn
         permission-message: no perms for test :c
