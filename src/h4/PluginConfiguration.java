@@ -1,8 +1,5 @@
 package h4;
 
-/**
- * Created by H4 on 16.1.2015.
- */
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -7,9 +7,6 @@ import java.util.UUID;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Created by H4 on 16.1.2015.
- */
 public class DatabaseMethods {
 
     private JavaPlugin plugin;

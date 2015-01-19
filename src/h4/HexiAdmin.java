@@ -11,7 +11,11 @@ package h4;
  */
 
 /**
- * TODO: Write the plugin
+ * TODO: Commands
+ * TODO: MySQL Error Checking
+ * TODO: User Messages
+ * TODO: PEX support
+ * TODO: Ban support
  */
 
 import org.bukkit.entity.Player;
