@@ -1,5 +1,5 @@
 name: HexiAdmin
-main: h4.HexiAdmin
+main: com.hexicraft.h4ukka.HexiAdmin
 version: 0.1r0
 commands:
     warn:

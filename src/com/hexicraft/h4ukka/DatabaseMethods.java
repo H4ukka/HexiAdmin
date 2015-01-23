@@ -1,4 +1,4 @@
-package h4;
+package com.hexicraft.h4ukka;
 
 import java.sql.*;
 import java.util.HashMap;
