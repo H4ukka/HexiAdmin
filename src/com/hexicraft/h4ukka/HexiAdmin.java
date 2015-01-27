@@ -74,39 +74,64 @@ public class HexiAdmin extends JavaPlugin implements Listener {
                  *  hexiadmin.admin
                  */
 
-                switch (arguments[0]) {
+                if (arguments.length > 0) {
 
-                    /* Lists player's own warning status */
-                    case "mystatus":
-                        if (permissions.has(sender, "hexiadmin.player")) {
-                            Map playerInfo = dataBase.getPlayerData(target.getUniqueId());
-                            target.sendMessage(playerInfo.get("warnings").toString());
-                        }
-                        break;
+                    switch (arguments[0]) {
 
-                    /* Warns the given player with an optional reason*/
-                    case "w":
-                        if (permissions.has(sender, "hexicraft.mod")) {
+                        /* Lists player's own warning status */
+                        case "mystatus":
+                            if (permissions.has(sender, "hexiadmin.player")) {
+                                Map playerInfo = dataBase.getPlayerData(target.getUniqueId());
+                                target.sendMessage(playerInfo.get("warnings").toString());
+                            }
+                            break;
 
-                        }
-                        break;
+                        /* Warns the given player with an optional reason */
+                        /* Usage: /warn w <target> */
+                        case "w":
+                            if (permissions.has(sender, "hexicraft.mod")) {
+                                if (arguments.length > 1) {
+                                    if (dataBase.warnPlayer(arguments[1]) > 0){
+                                        sender.sendMessage("Warned " + arguments[1]);
+                                    }else{
+                                        sender.sendMessage("Could not find " + arguments[1]);
+                                    }
+                                }else{
+                                    /* NOT ENOUGH ARGUMENTS */
+                                }
+                            }
+                            break;
 
-                    /* Lists the status of a player */
-                    case "status":
-                        if (permissions.has(sender, "hexicraft.mod")) {
+                        /* Lists the status of a player */
+                        /* Usage: /warn status <target> */
+                        case "status":
+                            if (permissions.has(sender, "hexicraft.mod")) {
+                                if (arguments.length > 1) {
+                                    Map targetPlayerData = dataBase.getPlayerData(arguments[1]);
 
-                        }
-                        break;
+                                    if (!(targetPlayerData.size() == 0)) {
+                                        sender.sendMessage(arguments[1] + " has " + targetPlayerData.get("warnings").toString() + " warnings");
+                                    }else{
+                                        sender.sendMessage("Could not find " + arguments[1]);
+                                    }
+                                }else{
+                                    /* NOT ENOUGH ARGUMENTS */
+                                }
+                            }
+                            break;
 
-                    /* Resets a players status */
-                    case "reset":
-                        if (permissions.has(sender, "hexicraft.admin")) {
+                        /* Resets a players status */
+                        case "reset":
+                            if (permissions.has(sender, "hexicraft.admin")) {
 
-                        }
-                        break;
+                            }
+                            break;
 
-                    default:
-                        sender.sendMessage("Command not found.");
+                        default:
+                            sender.sendMessage("Command not found.");
+                    }
+                }else{
+                    /* NOT ENOUGH ARGUMENTS */
                 }
             }else{
                 /* NOT A PLAYER */
@@ -129,8 +154,12 @@ public class HexiAdmin extends JavaPlugin implements Listener {
         if (playerData.size() == 0) {
             dataBase.addPlayer(player.getUniqueId(), player.getName());
         } else {
-            if (!playerData.get("warnings").equals(0)) {
-                player.sendMessage("You have warnings! :c");
+            int warningCount = (Integer) playerData.get("warnings");
+
+            if (warningCount > 0) {
+                player.sendMessage("You have warnings :c");
+            }else if (warningCount >= 3){
+                /* BAN PLAYER */
             }
         }
     }

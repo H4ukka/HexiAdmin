@@ -95,6 +95,10 @@ public class DatabaseMethods {
         return executeQuery("SELECT * FROM players WHERE uuid='" + playerUniqueId.toString() + "'");
     }
 
+    public Map getPlayerData (String playerName) {
+        return executeQuery("SELECT * FROM players WHERE name='" + playerName + "'");
+    }
+
     public int addPlayer (UUID playerUniqueId, String playerName) {
         return executeUpdate("INSERT INTO players (name,uuid) VALUES('" + playerName + "','" + playerUniqueId.toString() + "')");
     }
