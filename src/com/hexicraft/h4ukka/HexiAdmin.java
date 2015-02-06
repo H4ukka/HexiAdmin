@@ -6,8 +6,7 @@ package com.hexicraft.h4ukka;
  *
  * Created by h4 on 16.1.2015.
  *
- * Features:
- *  - None
+ * Remember to build for java version 1.7
  */
 
 /**
@@ -79,7 +78,7 @@ public class HexiAdmin extends JavaPlugin implements Listener {
                         /* Warns the given player with an optional reason */
                         /* Usage: /warn w <target> */
                         case "w":
-                            if (permissions.has(sender, "hexicraft.mod")) {
+                            if (permissions.has(sender, "hexiadmin.mod")) {
                                 if (arguments.length > 1) {
                                     if (dataBase.warnPlayer(arguments[1]) > 0){
                                         sender.sendMessage("Warned " + arguments[1]);
@@ -95,7 +94,7 @@ public class HexiAdmin extends JavaPlugin implements Listener {
                         /* Lists the status of a player */
                         /* Usage: /warn status <target> */
                         case "status":
-                            if (permissions.has(sender, "hexicraft.mod")) {
+                            if (permissions.has(sender, "hexiadmin.mod")) {
                                 if (arguments.length > 1) {
                                     Map targetPlayerData = dataBase.getPlayerData(arguments[1]);
 
@@ -112,7 +111,7 @@ public class HexiAdmin extends JavaPlugin implements Listener {
 
                         /* Resets a players status */
                         case "reset":
-                            if (permissions.has(sender, "hexicraft.admin")) {
+                            if (permissions.has(sender, "hexiadmin.admin")) {
 
                             }
                             break;
