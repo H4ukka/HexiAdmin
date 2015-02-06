@@ -13,6 +13,7 @@ public class DatabaseMethods {
     private String user;
     private String pass;
     private String url;
+    private String tableName;
 
     DatabaseMethods (JavaPlugin plugin, PluginConfiguration config) {
         this.plugin = plugin;
@@ -20,12 +21,12 @@ public class DatabaseMethods {
         user = config.getString("mysql.user");
         pass = config.getString("mysql.pass");
         url = config.getString("mysql.url");
+        tableName = config.getString("mysql.tableName");
     }
 
     private Connection openConnection () {
         try {
-            Connection newConnection = DriverManager.getConnection(url, user, pass);
-            return newConnection;
+            return DriverManager.getConnection(url, user, pass);
 
         }catch(SQLException e1) {
             plugin.getLogger().warning("Failed to open MySQL connection.\n" + e1.getMessage());
@@ -91,20 +92,38 @@ public class DatabaseMethods {
         return player;
     }
 
+    public int setupDataBase () {
+        return executeUpdate("CREATE TABLE IF NOT EXISTS " + tableName + " (" +
+                             "uuid VARCHAR(36) NOT NULL," +
+                             "name VARCHAR(16) NOT NULL," +
+                             "warnings TINYINT DEFAULT 0," +
+                             "reasons VARCHAR(80) DEFAULT NULL," +
+                             "issuers VARCHAR(80) DEFAULT NULL," +
+                             "previous_names BLOB ," +
+                             "reset_date DATETIME DEFAULT NULL," +
+                             "PRIMARY KEY (uuid)" +
+                             ")");
+    }
+
     public Map getPlayerData (UUID playerUniqueId) {
-        return executeQuery("SELECT * FROM players WHERE uuid='" + playerUniqueId.toString() + "'");
+        return executeQuery("SELECT * FROM " + tableName + " WHERE uuid = '" + playerUniqueId.toString() + "'");
     }
 
     public Map getPlayerData (String playerName) {
-        return executeQuery("SELECT * FROM players WHERE name='" + playerName + "'");
+        return executeQuery("SELECT * FROM " + tableName + " WHERE name = '" + playerName + "'");
+    }
+
+    public int updatePlayerName (UUID playerUniqueId, String playerName) {
+        return executeUpdate("UPDATE " + tableName + " SET previous_names = CONCAT(previous_names, name, ','), " +
+                             "name = '" + playerName + "' WHERE uuid = '" + playerUniqueId.toString() + "'");
     }
 
     public int addPlayer (UUID playerUniqueId, String playerName) {
-        return executeUpdate("INSERT INTO players (name,uuid) VALUES('" + playerName + "','" + playerUniqueId.toString() + "')");
+        return executeUpdate("INSERT INTO " + tableName + " (name,uuid,previous_names) VALUES('" + playerName + "','" + playerUniqueId.toString() + "','')");
     }
 
     public int warnPlayer (String playerName) {
-        return executeUpdate("UPDATE players SET warnings=warnings+1 WHERE name='" + playerName + "'");
+        return executeUpdate("UPDATE " + tableName + " SET warnings = warnings + 1 WHERE name = '" + playerName + "'");
     }
 
 }

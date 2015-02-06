@@ -40,25 +40,15 @@ public class HexiAdmin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
-        getLogger().info("HexiAdmin Started.");
+
+        dataBase.setupDataBase();
 
         setupPermissions();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] arguments) {
-      /*switch (command.getName()) {
-            case "warn":
-                if (arguments.length < 1) {
-                    return false;
-                }else if (permissions.has(sender, "hexiadmin.mod")) {
-                    if (dataBase.warnPlayer(arguments[0]) > 0) {
-                        sender.sendMessage("Warned " + arguments[0]);
-                    }else{
-                        sender.sendMessage("Could not find " + arguments[0]);
-                    }
-                }
-        }*/
+
         if (arguments.length < 1) {
             /* HELP */
         }else if (command.getName().equalsIgnoreCase("warn")) {
@@ -132,9 +122,11 @@ public class HexiAdmin extends JavaPlugin implements Listener {
                     }
                 }else{
                     /* NOT ENOUGH ARGUMENTS */
+                    return false;
                 }
             }else{
                 /* NOT A PLAYER */
+                return false;
             }
         }
         return true;
@@ -155,11 +147,20 @@ public class HexiAdmin extends JavaPlugin implements Listener {
             dataBase.addPlayer(player.getUniqueId(), player.getName());
         } else {
             int warningCount = (Integer) playerData.get("warnings");
+            String currentPlayerName = player.getName();
+            String storedPlayerName = (String) playerData.get("name");
 
             if (warningCount > 0) {
                 player.sendMessage("You have warnings :c");
             }else if (warningCount >= 3){
                 /* BAN PLAYER */
+            }
+
+            if (!storedPlayerName.equals(currentPlayerName)) {
+                /* Stored name doesn't match the current name */
+
+                getLogger().info("Updating player record for " + currentPlayerName + " - old name was " + storedPlayerName);
+                dataBase.updatePlayerName(player.getUniqueId(), currentPlayerName);
             }
         }
     }
