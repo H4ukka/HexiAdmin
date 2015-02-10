@@ -43,6 +43,8 @@ public class HexiAdmin extends JavaPlugin implements Listener {
         dataBase.setupDataBase();
 
         setupPermissions();
+
+        getCommand("status").setExecutor(new StatusCheckCommand(this));
     }
 
     @Override
@@ -67,14 +69,6 @@ public class HexiAdmin extends JavaPlugin implements Listener {
 
                     switch (arguments[0]) {
 
-                        /* Lists player's own warning status */
-                        case "mystatus":
-                            if (permissions.has(sender, "hexiadmin.player")) {
-                                Map playerInfo = dataBase.getPlayerData(target.getUniqueId());
-                                target.sendMessage(playerInfo.get("warnings").toString());
-                            }
-                            break;
-
                         /* Warns the given player with an optional reason */
                         /* Usage: /warn w <target> */
                         case "w":
@@ -82,24 +76,6 @@ public class HexiAdmin extends JavaPlugin implements Listener {
                                 if (arguments.length > 1) {
                                     if (dataBase.warnPlayer(arguments[1]) > 0){
                                         sender.sendMessage("Warned " + arguments[1]);
-                                    }else{
-                                        sender.sendMessage("Could not find " + arguments[1]);
-                                    }
-                                }else{
-                                    /* NOT ENOUGH ARGUMENTS */
-                                }
-                            }
-                            break;
-
-                        /* Lists the status of a player */
-                        /* Usage: /warn status <target> */
-                        case "status":
-                            if (permissions.has(sender, "hexiadmin.mod")) {
-                                if (arguments.length > 1) {
-                                    Map targetPlayerData = dataBase.getPlayerData(arguments[1]);
-
-                                    if (!(targetPlayerData.size() == 0)) {
-                                        sender.sendMessage(arguments[1] + " has " + targetPlayerData.get("warnings").toString() + " warnings");
                                     }else{
                                         sender.sendMessage("Could not find " + arguments[1]);
                                     }
@@ -135,6 +111,26 @@ public class HexiAdmin extends JavaPlugin implements Listener {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         permissions = rsp.getProvider();
         return permissions != null;
+    }
+
+    public Permission getPermissions () {
+        return permissions;
+    }
+
+    public boolean hasPermission (CommandSender cs, String node) {
+        return permissions.has(cs, node);
+    }
+
+    public boolean hasPermission (Player pl, String node) {
+        return permissions.has(pl, node);
+    }
+
+    public PluginConfiguration getConfiguration () {
+        return config;
+    }
+
+    public DatabaseMethods getDataBase () {
+        return dataBase;
     }
 
     @EventHandler
