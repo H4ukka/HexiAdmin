@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class PluginConfiguration {
 
@@ -41,7 +43,10 @@ public class PluginConfiguration {
         return config.getString(path);
     }
 
+    public List<String> getStringList (String path) { return config.getStringList(path); }
+
     public boolean getBoolean (String path) {
         return config.getBoolean(path);
     }
+
 }

@@ -6,3 +6,7 @@ commands:
         description: This is a test command.
         usage: /warn
         permission-message: no perms for test :c
+    vote:
+        description: Lists voting links.
+        usage: /vote
+        permission-message: no perms for test :c

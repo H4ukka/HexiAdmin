@@ -63,7 +63,7 @@ public class DatabaseMethods {
         Connection conn = openConnection();
         ResultSet answer = null;
         PreparedStatement queryStatement = null;
-        Map player = new HashMap();
+        Map<String,Object> player = new HashMap<>();
 
         if (conn != null) {
             try {

@@ -18,6 +18,7 @@ package com.hexicraft.h4ukka;
  */
 
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -44,7 +45,8 @@ public class HexiAdmin extends JavaPlugin implements Listener {
 
         setupPermissions();
 
-        getCommand("status").setExecutor(new StatusCheckCommand(this));
+        //getCommand("status").setExecutor(new StatusCheckCommand(this));
+        getCommand("vote").setExecutor(new VoteLinkCommand(this));
     }
 
     @Override
@@ -135,6 +137,14 @@ public class HexiAdmin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onJoin (PlayerJoinEvent event) {
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "title "
+                + event.getPlayer().getName()
+                + " subtitle ['',{'text':'Welcome to Hexicraft','color':'white'}]");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"title "
+                + event.getPlayer().getName()
+                + " title ['',{'text':'HEXICRAFT','color':'gold'}]");
+
         Player player = event.getPlayer();
         Map playerData = dataBase.getPlayerData(player.getUniqueId());
 
